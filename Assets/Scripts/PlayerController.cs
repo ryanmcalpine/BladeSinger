@@ -1,0 +1,232 @@
+﻿// by Ryan McAlpine
+// references: Acacia Developer @ YouTube, Board To Bits Games @ YouTube, bramdal @ github
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    public Animator anim;
+
+    [Header( "Camera" )]
+    [SerializeField] Transform playerCamera;
+    [SerializeField] float mouseSensitivity = 10.0f;
+    [SerializeField] float mouseSmoothTime = 0.05f;
+    bool lockCursor = true; // unused as of yet
+    float cameraPitch = 0.0f;
+    Vector2 currentMousePosition = Vector2.zero;
+    Vector2 currentMouseVelocity = Vector2.zero;
+    Vector2 targetMousePosition = Vector2.zero;
+
+    private int cameraMoveDir = -1;
+    // cameraMoveDir will represent the direction of movement of the cursor
+    // 8 possible swing directions, organized like so:
+    //  0 1 2
+    //  3   4
+    //  5 6 7
+    public int CameraMoveDir
+    {
+        // Making a property allows other classes (i.e. the attack controller)
+        // to read the variable but not change it
+        get { return cameraMoveDir; }
+    }
+    float previousRotX = 0f;
+    float previousRotY = 0f;
+
+
+    [Header( "Movement" )]
+    [SerializeField] float walkSpeed = 6.0f;
+    [SerializeField] float runSpeed = 10.0f;
+    [SerializeField] float moveSmoothTime = 0.2f;
+    float currentMoveSpeed;
+    CharacterController controller;
+    Vector2 currentDir = Vector2.zero;
+    Vector2 currentVelocity = Vector2.zero;
+    Vector2 inputDir = Vector2.zero;
+    float velocityY = 0.0f;
+    bool jumpTrigger = false;
+    [SerializeField] float jumpForce = 5f;
+    [SerializeField] float fallMultiplier = 2.5f;
+    [SerializeField] float lowJumpMultiplier = 2f;
+
+
+    void Start()
+    {
+        controller = GetComponent<CharacterController>();
+
+        if( lockCursor )
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        currentMoveSpeed = walkSpeed;
+    }
+
+    // Get input in Update
+    void Update()
+    {
+        targetMousePosition = new Vector2( Input.GetAxis( "Mouse X" ), Input.GetAxis( "Mouse Y" ) );
+
+        // get WASD input
+        inputDir = new Vector2( Input.GetAxisRaw( "Horizontal" ), Input.GetAxisRaw( "Vertical" ) );
+        inputDir.Normalize();
+
+        // Handle shift-to-sprint input
+        if( Input.GetKey( KeyCode.LeftShift ) )
+        {
+            currentMoveSpeed = runSpeed;
+            anim.SetBool( "isRunning", true );
+        }
+        else
+        {
+            currentMoveSpeed = walkSpeed;
+            anim.SetBool( "isRunning", false );
+        }
+
+        // Space == jump
+        if( Input.GetKeyDown( KeyCode.Space ) )
+        {
+            jumpTrigger = true;
+        }
+
+    }
+    // Then do physics work in FixedUpdate
+    void FixedUpdate()
+    {
+        UpdateMouseLook();
+        UpdateMovement();
+
+        GetCameraMoveDir();
+        previousRotY = transform.eulerAngles.y;
+        previousRotX = playerCamera.localEulerAngles.x;
+
+        CheckGrounded();
+    }
+
+    void UpdateMouseLook()
+    {
+        currentMousePosition = Vector2.SmoothDamp( currentMousePosition, targetMousePosition, ref currentMouseVelocity, mouseSmoothTime );
+
+        cameraPitch -= currentMousePosition.y * mouseSensitivity;    // invert y-axis movement to account for camera orientation
+        cameraPitch = Mathf.Clamp( cameraPitch, -90.0f, 85.0f );
+
+        playerCamera.localEulerAngles = Vector3.right * cameraPitch;    // Camera is a child object so must use local angles
+
+        transform.Rotate( Vector3.up * currentMousePosition.x * mouseSensitivity );
+    }
+
+    void UpdateMovement()
+    {
+        // Set anim bool if receiving WASD input
+        if( inputDir.x > 0 || inputDir.y > 0 )
+        {
+            anim.SetBool( "isMoving", true );
+        }
+        else
+        {
+            anim.SetBool( "isMoving", false );
+        }
+
+        currentDir = Vector2.SmoothDamp( currentDir, inputDir, ref currentVelocity, moveSmoothTime );
+
+        if( controller.isGrounded )
+        {
+            velocityY = 0.0f;
+
+            // Handle jumping
+            if( jumpTrigger )
+            {
+                anim.SetTrigger( "jump" );
+                velocityY = jumpForce;
+            }
+
+        }
+        jumpTrigger = false;
+        velocityY += Physics.gravity.y * Time.deltaTime;
+
+        // "Better Jumping"
+        if( velocityY < 0 )
+        {
+            // Fall faster
+            velocityY += Physics.gravity.y * ( fallMultiplier - 1 ) * Time.deltaTime;
+        }
+        else if( velocityY > 0 && !Input.GetKey( KeyCode.Space ) )
+        {
+            // Hold space bar to jump higher
+            velocityY += Physics.gravity.y * ( lowJumpMultiplier - 1 ) * Time.deltaTime;
+        }
+
+        Vector3 velocity = ( ( transform.forward * currentDir.y ) + ( transform.right * currentDir.x ) ) * currentMoveSpeed + ( Vector3.up * velocityY );
+
+        controller.Move( velocity * Time.deltaTime );
+    }
+
+    void GetCameraMoveDir()
+    {
+        // Get change in x- and y- rotation using previousRot variables
+        float deltaX = playerCamera.localEulerAngles.x - previousRotX;
+        float deltaY = transform.eulerAngles.y - previousRotY;
+
+        if( deltaX <= -1f && deltaY <= -1f )
+        {
+            // moved up & left
+            cameraMoveDir = 0;
+        }
+        else if( deltaX <= -1f && deltaY > -1f && deltaY < 1f )
+        {
+            // moved up
+            cameraMoveDir = 1;
+        }
+        else if( deltaX <= -1f && deltaY >= 1f )
+        {
+            // moved up & right
+            cameraMoveDir = 2;
+        }
+        else if( deltaX > -1f && deltaX < 1f && deltaY <= -1f )
+        {
+            // moved left
+            cameraMoveDir = 3;
+        }
+        else if( deltaX > -1f && deltaX < 1f && deltaY >= 1f )
+        {
+            // moved right
+            cameraMoveDir = 4;
+        }
+        else if( deltaX >= 1f && deltaY <= -1f )
+        {
+            // moved down and left
+            cameraMoveDir = 5;
+        }
+        else if( deltaX >= 1f && deltaY > -1f && deltaY < 1f )
+        {
+            // moved down
+            cameraMoveDir = 6;
+        }
+        else if( deltaX >= 1f && deltaY >= 1f )
+        {
+            // moved down and right
+            cameraMoveDir = 7;
+        }
+        else
+        {
+            cameraMoveDir = -1; // just in case?
+        }
+    }
+
+
+    void CheckGrounded()
+    {
+        // Tell the animator if we're on the ground or not
+        if( controller.isGrounded )
+        {
+            anim.SetBool( "isGrounded", true );
+        }
+        else
+        {
+            anim.SetBool( "isGrounded", false );
+        }
+    }
+
+}
