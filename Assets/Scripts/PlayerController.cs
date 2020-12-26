@@ -1,5 +1,6 @@
 ﻿// by Ryan McAlpine
 // references: Acacia Developer @ YouTube, Board To Bits Games @ YouTube, bramdal @ github
+// This class implements a first-person player controller with sprinting and jumping
 
 using System.Collections;
 using System.Collections.Generic;
@@ -99,8 +100,8 @@ public class PlayerController : MonoBehaviour
         UpdateMovement();
 
         GetCameraMoveDir();
-        previousRotY = transform.eulerAngles.y;
-        previousRotX = playerCamera.localEulerAngles.x;
+        previousRotY = transform.eulerAngles.y; // to be used for the next call to Get...Dir()
+        previousRotX = playerCamera.localEulerAngles.x; // ^
 
         CheckGrounded();
     }
@@ -215,7 +216,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     void CheckGrounded()
     {
         // Tell the animator if we're on the ground or not
@@ -228,5 +228,4 @@ public class PlayerController : MonoBehaviour
             anim.SetBool( "isGrounded", false );
         }
     }
-
 }

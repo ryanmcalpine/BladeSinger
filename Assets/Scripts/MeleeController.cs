@@ -8,7 +8,14 @@ using UnityEngine;
 public class MeleeController : MonoBehaviour
 {
     public PlayerController player;
+    public BoxCollider bladeCollider;
+    private float colliderTimerMax = 3f;
+    private float colliderTimer = 2f;
 
+    void Start()
+    {
+        bladeCollider.enabled = false;
+    }
     void Update()
     {
         Block();
@@ -19,6 +26,18 @@ public class MeleeController : MonoBehaviour
         }
 
         Feint();
+    }
+    void FixedUpdate()
+    {
+        if( bladeCollider.enabled )
+        {
+            colliderTimer -= Time.deltaTime;
+
+            if( colliderTimer <= 0 )
+            {
+                bladeCollider.enabled = false;
+            }
+        }
     }
 
     void Block()
@@ -34,6 +53,8 @@ public class MeleeController : MonoBehaviour
         Debug.Log( "Attack Direction: " + dir );
 
         // todo: if not blocking
+        bladeCollider.enabled = true;
+        colliderTimer = colliderTimerMax;
         switch( dir )
         {
             case 0:
