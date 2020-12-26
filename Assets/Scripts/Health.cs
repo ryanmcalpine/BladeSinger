@@ -1,4 +1,5 @@
 ﻿// by Ryan McAlpine
+// references: How To Do @ YouTube
 // This script contains the necessary logic for starting with max
 //      health, taking damage, dying, and (if applicable) activating
 //      a ragdoll on death.

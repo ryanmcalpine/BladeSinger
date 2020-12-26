@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     public Animator anim;
 
     [Header( "Camera" )]
-    [SerializeField] Transform playerCamera;
+    [SerializeField] Camera camera;
+    [SerializeField] Transform cameraTransform;
     [SerializeField] float mouseSensitivity = 10.0f;
     [SerializeField] float mouseSmoothTime = 0.05f;
     bool lockCursor = true; // unused as of yet
@@ -101,7 +102,7 @@ public class PlayerController : MonoBehaviour
 
         GetCameraMoveDir();
         previousRotY = transform.eulerAngles.y; // to be used for the next call to Get...Dir()
-        previousRotX = playerCamera.localEulerAngles.x; // ^
+        previousRotX = cameraTransform.localEulerAngles.x; // ^
 
         CheckGrounded();
     }
@@ -113,7 +114,7 @@ public class PlayerController : MonoBehaviour
         cameraPitch -= currentMousePosition.y * mouseSensitivity;    // invert y-axis movement to account for camera orientation
         cameraPitch = Mathf.Clamp( cameraPitch, -90.0f, 85.0f );
 
-        playerCamera.localEulerAngles = Vector3.right * cameraPitch;    // Camera is a child object so must use local angles
+        cameraTransform.localEulerAngles = Vector3.right * cameraPitch;    // Camera is a child object so must use local angles
 
         transform.Rotate( Vector3.up * currentMousePosition.x * mouseSensitivity );
     }
@@ -167,7 +168,7 @@ public class PlayerController : MonoBehaviour
     void GetCameraMoveDir()
     {
         // Get change in x- and y- rotation using previousRot variables
-        float deltaX = playerCamera.localEulerAngles.x - previousRotX;
+        float deltaX = cameraTransform.localEulerAngles.x - previousRotX;
         float deltaY = transform.eulerAngles.y - previousRotY;
 
         if( deltaX <= -1f && deltaY <= -1f )
@@ -214,6 +215,10 @@ public class PlayerController : MonoBehaviour
         {
             cameraMoveDir = -1; // just in case?
         }
+    }
+    public Ray GetLookDirRay()
+    {
+        return camera.ViewportPointToRay( new Vector3( 0.5f, 0.5f, 0 ) );
     }
 
     void CheckGrounded()

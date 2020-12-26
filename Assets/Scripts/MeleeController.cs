@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿// by Ryan McAlpine
+// references: bramdal @ github
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-// by Ryan McAlpine
-// references: bramdal @ github
 
 public class MeleeController : MonoBehaviour
 {
