@@ -10,10 +10,9 @@ public class SwordBehaviour : MonoBehaviour
 
     private void OnCollisionEnter( Collision other )
     {
-        Debug.Log( "Attacked " + other.gameObject.name );
-
         if( other.gameObject.tag == "Enemy" )
         {
+            Debug.Log( "Attacked " + other.gameObject.name );
             Health enemyHealth = other.gameObject.GetComponent<Health>();
             enemyHealth.TakeDamage( swordDamage );
         }
