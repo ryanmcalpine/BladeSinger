@@ -38,6 +38,12 @@ public class Fireball : MonoBehaviour
            // Destroy( gameObject );
         }
     }
+
+    // Ragdoll is set active in Health script Update() function,
+    // so delay adding force til next FixedUpdate() to ensure
+    // it is active and recieves the force
+    // (This may or may not be necessary - it wasn't working in
+    // OnTriggerEnter so I tried this way but still not seeing results)
     IEnumerator DelayedExplosionForce( Component[] rbs )
     {
         yield return new WaitForFixedUpdate();
