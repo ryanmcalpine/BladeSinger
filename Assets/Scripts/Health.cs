@@ -15,6 +15,8 @@ public class Health : MonoBehaviour
     [SerializeField] private GameObject animatedModel;
     [SerializeField] private GameObject ragdollModel;
 
+    //private List<Rigidbody> ragdollRBs;
+
     private int currentHealth;
     private bool isDead = false;
     public bool IsDead  // property
@@ -72,4 +74,31 @@ public class Health : MonoBehaviour
             //       maybe spawn particles or somethin?)
         }
     }
+
+    //public List<Rigidbody> GetRagdollRBs()
+    public Component[] GetRagdollRBs()
+    {
+        Component[] rbs = ragdollModel.GetComponentsInChildren( typeof( Rigidbody ), true );
+        return rbs;
+
+        /*
+        ragdollRBs.Clear();
+        return GetRagdollRBs( gameObject );
+        */
+    }
+    /*
+    private List<Rigidbody> GetRagdollRBs( GameObject go )
+    {
+        Transform[] children = go.GetComponentsInChildren<Transform>();
+        
+        foreach( Transform child in children )
+        {
+            if( child.gameObject.GetComponent<Rigidbody>() != null )
+            {
+                ragdollRBs.Add( child.gameObject.GetComponent<Rigidbody>() )
+            }
+            GetRagdollRBs( child.gameObject );
+        }
+    }
+    */
 }
