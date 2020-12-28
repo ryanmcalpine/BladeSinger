@@ -213,7 +213,7 @@ Transform:
   m_LocalScale: {x: 10, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &231593803
 Rigidbody:
@@ -290,6 +290,50 @@ CapsuleCollider:
   m_Height: 0.42045557
   m_Direction: 1
   m_Center: {x: 0, y: 0.21022779, z: 0}
+--- !u!1 &288924217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 288924219}
+  - component: {fileID: 288924218}
+  m_Layer: 0
+  m_Name: AudioController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &288924218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288924217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef2d3b80cd7df834397c019249939649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  music: {fileID: 0}
+--- !u!4 &288924219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288924217}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &359588443
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -468,7 +512,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!54 &768803509
 Rigidbody:
@@ -1086,7 +1130,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!144 &1315745126
 CharacterJoint:
@@ -1271,7 +1315,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1527242525
 PrefabInstance:
@@ -1911,12 +1955,16 @@ MonoBehaviour:
   cameraTransform: {fileID: 963194228}
   mouseSensitivity: 10
   mouseSmoothTime: 0.05
-  walkSpeed: 6
-  runSpeed: 10
   moveSmoothTime: 0.2
   jumpForce: 5
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
+  ac_footsteps:
+  - {fileID: 8300000, guid: e0b7eaa539563824fa8ef912fc9e531e, type: 3}
+  - {fileID: 8300000, guid: b0b39551757d41440a414d22e1367d50, type: 3}
+  - {fileID: 8300000, guid: 62025c44657b1034faab6cb47a1d280d, type: 3}
+  walkSFXTime: 0.5
+  sprintSFXTime: 0.3
 --- !u!143 &1945973261
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1949,7 +1997,7 @@ Transform:
   - {fileID: 963194228}
   - {fileID: 1687270844}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1945973263
 MonoBehaviour:
@@ -8708,7 +8756,7 @@ Transform:
   - {fileID: 5421152602354161087}
   - {fileID: 1948329710104843002}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &5421152602354161087
 Transform:
