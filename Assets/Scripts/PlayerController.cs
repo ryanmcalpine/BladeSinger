@@ -158,6 +158,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             anim.SetBool( "isMoving", false );
+            footstepSFXTimer = 0f;
         }
 
         currentDir = Vector2.SmoothDamp( currentDir, inputDir, ref currentVelocity, moveSmoothTime );
