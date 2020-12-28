@@ -38,8 +38,8 @@ public class PlayerController : MonoBehaviour
 
 
     [Header( "Movement" )]
-    [SerializeField] float walkSpeed = 6.0f;
-    [SerializeField] float runSpeed = 10.0f;
+    [SerializeField] const float walkSpeed = 6.0f;
+    [SerializeField] const float runSpeed = 10.0f;
     [SerializeField] float moveSmoothTime = 0.2f;
     float currentMoveSpeed;
     CharacterController controller;
@@ -52,6 +52,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float fallMultiplier = 2.5f;
     [SerializeField] float lowJumpMultiplier = 2f;
 
+    [Header( "Audio" )]
+    [SerializeField] AudioClip[] ac_footsteps;
+    [SerializeField] private float walkSFXTime;  // time between footstep sfx when walking
+    [SerializeField] private float sprintSFXTime;    // time between footstep sfx when sprinting
+    private float footstepSFXTimer = 0f;
 
     void Start()
     {
@@ -95,6 +100,8 @@ public class PlayerController : MonoBehaviour
 
     }
     // Then do physics work in FixedUpdate
+    // FixedUpdate is used because it is unaffected by framerate
+    // that means physics (movement) will have consistent speed
     void FixedUpdate()
     {
         UpdateMouseLook();
@@ -121,14 +128,37 @@ public class PlayerController : MonoBehaviour
 
     void UpdateMovement()
     {
-        // Set anim bool if receiving WASD input
+        // Set anim bool & play SFX if receiving WASD input
         if( inputDir.x > 0 || inputDir.y > 0 )
         {
             anim.SetBool( "isMoving", true );
+
+            // Play sound effects
+            AudioClip ac_footstep = ac_footsteps[Random.Range( 0, ac_footsteps.Length )];
+            switch( currentMoveSpeed )
+            {
+                case walkSpeed:
+                    if( footstepSFXTimer <= 0 )
+                    {
+                        AudioController.Instance.PlaySound( ac_footstep, transform.position, true );
+                        footstepSFXTimer = walkSFXTime;
+                    }
+                    footstepSFXTimer -= Time.deltaTime;
+                    break;
+                case runSpeed:
+                    if( footstepSFXTimer <= 0 )
+                    {
+                        AudioController.Instance.PlaySound( ac_footstep, transform.position, true );
+                        footstepSFXTimer = sprintSFXTime;
+                    }
+                    footstepSFXTimer -= Time.deltaTime;
+                    break;
+            }
         }
         else
         {
             anim.SetBool( "isMoving", false );
+            footstepSFXTimer = 0f;
         }
 
         currentDir = Vector2.SmoothDamp( currentDir, inputDir, ref currentVelocity, moveSmoothTime );
