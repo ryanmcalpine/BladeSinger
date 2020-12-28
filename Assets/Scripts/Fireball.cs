@@ -7,6 +7,7 @@ using UnityEngine;
 public class Fireball : MonoBehaviour
 {
     [SerializeField] private GameObject explosionVFX;
+    [SerializeField] private AudioClip explosion_ac;
     [SerializeField] private int fireballDmg;
     [SerializeField] private float explosionForce;
 
@@ -17,6 +18,7 @@ public class Fireball : MonoBehaviour
             Debug.Log( "Fireball hit " + other.gameObject.name );
 
             Instantiate( explosionVFX, transform.position, transform.rotation );
+            AudioController.Instance.PlaySound( explosion_ac, transform.position, true );
 
             if( other.gameObject.tag == "Enemy" )
             {
