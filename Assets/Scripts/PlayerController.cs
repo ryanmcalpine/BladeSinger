@@ -133,26 +133,33 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool( "isMoving", true );
 
-            // Play sound effects
-            AudioClip ac_footstep = ac_footsteps[Random.Range( 0, ac_footsteps.Length )];
-            switch( currentMoveSpeed )
+            // Play footstep sound effects, as long as we're not jumping
+            if( controller.isGrounded )
             {
-                case walkSpeed:
-                    if( footstepSFXTimer <= 0 )
-                    {
-                        AudioController.Instance.PlaySound( ac_footstep, transform.position, true );
-                        footstepSFXTimer = walkSFXTime;
-                    }
-                    footstepSFXTimer -= Time.deltaTime;
-                    break;
-                case runSpeed:
-                    if( footstepSFXTimer <= 0 )
-                    {
-                        AudioController.Instance.PlaySound( ac_footstep, transform.position, true );
-                        footstepSFXTimer = sprintSFXTime;
-                    }
-                    footstepSFXTimer -= Time.deltaTime;
-                    break;
+                AudioClip ac_footstep = ac_footsteps[Random.Range( 0, ac_footsteps.Length )];
+                switch( currentMoveSpeed )
+                {
+                    case walkSpeed:
+                        if( footstepSFXTimer <= 0 )
+                        {
+                            AudioController.Instance.PlaySound( ac_footstep, transform.position, true );
+                            footstepSFXTimer = walkSFXTime;
+                        }
+                        footstepSFXTimer -= Time.deltaTime;
+                        break;
+                    case runSpeed:
+                        if( footstepSFXTimer <= 0 )
+                        {
+                            AudioController.Instance.PlaySound( ac_footstep, transform.position, true );
+                            footstepSFXTimer = sprintSFXTime;
+                        }
+                        footstepSFXTimer -= Time.deltaTime;
+                        break;
+                }
+            }
+            else
+            {
+                footstepSFXTimer = 0f;
             }
         }
         else
