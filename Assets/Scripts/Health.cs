@@ -14,6 +14,11 @@ public class Health : MonoBehaviour
     [SerializeField] private bool hasRagdoll = false;
     [SerializeField] private GameObject animatedModel;
     [SerializeField] private GameObject ragdollModel;
+    [SerializeField] private Rigidbody[] ragdollRBs;
+    public Rigidbody[] RagdollRBs
+    {
+        get { return ragdollRBs; }
+    }
 
     //private List<Rigidbody> ragdollRBs;
 
@@ -33,6 +38,7 @@ public class Health : MonoBehaviour
         if( hasRagdoll )
         {
             ragdollModel.SetActive( false );
+            ragdollRBs = GetRagdollRBs();
         }
     }
 
@@ -43,7 +49,7 @@ public class Health : MonoBehaviour
 
     void Update()
     {
-        if( currentHealth <= 0 )
+        if( currentHealth <= 0 && !isDead ) // just in case
         {
             Debug.Log( gameObject.name + " has died. RIP :(" );
             Die();
@@ -55,14 +61,20 @@ public class Health : MonoBehaviour
         Debug.Log( gameObject.name + " took " + dmg + " damage" );
         currentHealth -= dmg;
         Debug.Log( "Remaining health: " + currentHealth );
+        if( currentHealth <= 0 )
+        {
+            Die();
+        }
     }
 
     private void Die()
     {
+        Debug.Log( "IsDead = true" );
         isDead = true;
 
         if( hasRagdoll )
         {
+            Debug.Log( "Enabling ragdoll" );
             ragdollModel.transform.parent = null;
             ragdollModel.GetComponent<Animator>().enabled = false;
             animatedModel.SetActive( false );
@@ -75,17 +87,12 @@ public class Health : MonoBehaviour
         }
     }
 
-    //public List<Rigidbody> GetRagdollRBs()
-    public Component[] GetRagdollRBs()
+    private Rigidbody[] GetRagdollRBs()
     {
-        Component[] rbs = ragdollModel.GetComponentsInChildren( typeof( Rigidbody ), true );
+        Rigidbody[] rbs = ragdollModel.GetComponentsInChildren<Rigidbody>( true );
         return rbs;
-
-        /*
-        ragdollRBs.Clear();
-        return GetRagdollRBs( gameObject );
-        */
     }
+    
     /*
     private List<Rigidbody> GetRagdollRBs( GameObject go )
     {

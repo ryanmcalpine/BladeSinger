@@ -128,7 +128,7 @@ MonoBehaviour:
   explosionVFX: {fileID: 1899875899416870501, guid: 9e5af4bcde19f1446a4d97e442b25960,
     type: 3}
   fireballDmg: 30
-  explosionForce: 1500
+  explosionForce: 70
 --- !u!198 &5904383665769420686
 ParticleSystem:
   m_ObjectHideFlags: 0

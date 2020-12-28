@@ -23,9 +23,10 @@ public class Fireball : MonoBehaviour
                 Health enemyHealth = other.gameObject.GetComponent<Health>();
                 enemyHealth.TakeDamage( fireballDmg );
                 //other.gameObject.GetComponent<Rigidbody>().velocity += gameObject.GetComponent<Rigidbody>().velocity;
-                Component[] rbs = enemyHealth.GetRagdollRBs();
+                
+                Debug.Log( "F - Calling coroutine" );
+                StartCoroutine( DelayedExplosionForce( enemyHealth ) );
 
-                StartCoroutine( DelayedExplosionForce( rbs ) );
                 /*
                 foreach( Rigidbody rb in rbs )
                 {
@@ -49,16 +50,25 @@ public class Fireball : MonoBehaviour
     // it is active and recieves the force
     // (This may or may not be necessary - it wasn't working in
     // OnTriggerEnter so I tried this way but still not seeing results)
-    IEnumerator DelayedExplosionForce( Component[] rbs )
+    IEnumerator DelayedExplosionForce( Health enemyHealth )
     {
+        Debug.Log( "F - Waiting" );
         yield return new WaitForFixedUpdate();
-        foreach( Rigidbody rb in rbs )
+        Debug.Log( "F - Waited" );
+        if( enemyHealth.IsDead )
         {
-            Vector3 pushPoint = rb.gameObject.GetComponent<Collider>().ClosestPointOnBounds( transform.position );
-            Debug.Log( "Explosion! Force added to " + rb.gameObject.name );
-            Debug.Log( "PushPoint: " + pushPoint.x + ", " + pushPoint.y + ", " + pushPoint.z );
-            rb.AddForceAtPosition( pushPoint, GetComponent<Rigidbody>().velocity.normalized * explosionForce, ForceMode.Impulse );
+            Rigidbody[] rbs = enemyHealth.RagdollRBs;
+            foreach( Rigidbody rb in rbs )
+            {
+                Vector3 pushPoint = rb.gameObject.GetComponent<Collider>().ClosestPointOnBounds( transform.position );
+                Vector3 direction = rb.transform.position - transform.position;
+                Debug.Log( "Explosion! Force added to " + rb.gameObject.name );
+                Debug.Log( "PushPoint: " + pushPoint.x + ", " + pushPoint.y + ", " + pushPoint.z );
+                rb.AddForceAtPosition( direction * explosionForce, pushPoint, ForceMode.Impulse );
+                //rb.AddForce( Vector3.up * 1000, ForceMode.Impulse );
+            }
         }
+        Debug.Log( "F - Destroying gameObject" );
         Destroy( gameObject );
     }
 }
