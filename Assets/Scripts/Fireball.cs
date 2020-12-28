@@ -16,6 +16,8 @@ public class Fireball : MonoBehaviour
         {
             Debug.Log( "Fireball hit " + other.gameObject.name );
 
+            Instantiate( explosionVFX, transform.position, transform.rotation );
+
             if( other.gameObject.tag == "Enemy" )
             {
                 Health enemyHealth = other.gameObject.GetComponent<Health>();
@@ -33,8 +35,11 @@ public class Fireball : MonoBehaviour
                 }
                 */
             }
+            else
+            {
+                Destroy( gameObject );
+            }
 
-            Instantiate( explosionVFX, transform.position, transform.rotation );
            // Destroy( gameObject );
         }
     }
