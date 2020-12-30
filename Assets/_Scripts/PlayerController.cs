@@ -8,6 +8,28 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Singleton
+
+    public static PlayerController Instance { get; protected set; }
+
+    void Awake()
+    {
+        // Make sure this is the only instance of PlayerController
+        if( Instance != null )
+        {
+            Debug.LogError( "PlayerController - Another PlayerController already exists." );
+            return;
+        }
+
+        Instance = this;
+
+        // This line ensures that we will not restart music if
+        // we implement a main menu and start the game from there
+        DontDestroyOnLoad( gameObject );
+    }
+
+    #endregion
+
     public Animator anim;
 
     [Header( "Camera" )]

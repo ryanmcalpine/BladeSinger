@@ -9,6 +9,10 @@ public class Fireball : MonoBehaviour
 {
     [SerializeField] private GameObject explosionVFX;
     [SerializeField] private AudioClip explosion_ac;
+    [SerializeField] private ShakeEventData explosion_shake;
+    [SerializeField] private float shakeAmplitude;
+    [SerializeField] private float maxShakeDistance;
+
     [SerializeField] private int fireballDmg;
     [SerializeField] private float explosionForce;
 
@@ -21,6 +25,11 @@ public class Fireball : MonoBehaviour
             // Make it go boom (vfx and sfx)
             Instantiate( explosionVFX, transform.position, transform.rotation );
             AudioController.Instance.PlaySound( explosion_ac, transform.position, true );
+
+            // Shake camera too
+            float distance = Vector3.Distance( PlayerController.Instance.GetComponent<Transform>().position, transform.position );
+            explosion_shake.amplitude = shakeAmplitude * Mathf.Clamp01( 1f - ( distance / maxShakeDistance) );
+            Camera.main.GetComponentInParent<CameraShake>().AddShakeEvent( explosion_shake ); 
 
             // Do stuff if we hit an enemy, otherwise just Destroy()
             if( other.gameObject.tag == "Enemy" )
