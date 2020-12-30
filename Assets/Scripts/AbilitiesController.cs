@@ -9,6 +9,7 @@ public class AbilitiesController : MonoBehaviour
     public PlayerController player;
 
     [SerializeField] private Transform castPoint;
+    [SerializeField] private AudioSource spellcharge_as;
     [SerializeField] private ProgressBar chargeBar;
     [SerializeField] private ProgressBar manaBar;
 
@@ -22,6 +23,7 @@ public class AbilitiesController : MonoBehaviour
     [SerializeField] private float fireballSpeed;   // this could make for a fun upgrade - starts out real slow, evolves to be a laser nuke
     [SerializeField] private float fireballChargeTime = 2f;
     [SerializeField] private int fireballManaCost = 15;
+    [SerializeField] private AudioClip fireballChargeSFX;
     
     private float spellChargeTimer = 0f;
     private Vector3 projectileDestination;
@@ -37,6 +39,7 @@ public class AbilitiesController : MonoBehaviour
     {
         player.anim.SetBool( "isCasting", false );
         manaCurrent = manaMax;
+        spellcharge_as.enabled = false;
     }
 
     void Update()
@@ -47,6 +50,17 @@ public class AbilitiesController : MonoBehaviour
         if( Input.GetKeyDown(KeyCode.Q) )
         {
             player.anim.SetBool("isCasting", true);
+            spellcharge_as.enabled = true;
+
+            // Use our enum to decide which sound to play
+            switch( selectedSpell )
+            {
+                case SelectedSpell.Fireball:
+                    spellcharge_as.clip = fireballChargeSFX;
+                    break;
+            }
+
+            spellcharge_as.Play();
         }
         if( Input.GetKey( KeyCode.Q ) )
         {
@@ -62,6 +76,8 @@ public class AbilitiesController : MonoBehaviour
         }
         if( Input.GetKeyUp( KeyCode.Q ) )
         {
+            spellcharge_as.Stop();
+
             CastSpell();
             player.anim.SetBool( "isCasting", false );
 

@@ -530,11 +530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b2cbff72b1c024f8c0733c2777d3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimum: 0
-  maximum: 100
-  mask: {fileID: 351612817}
   fill: {fileID: 1733587412}
-  color: {r: 1, g: 1, b: 1, a: 0}
 --- !u!1 &406908546
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,11 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b2cbff72b1c024f8c0733c2777d3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimum: 0
-  maximum: 100
-  mask: {fileID: 0}
   fill: {fileID: 1019288415}
-  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &662662326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1565,11 +1557,6 @@ PrefabInstance:
       propertyPath: chargeBar
       value: 
       objectReference: {fileID: 351612820}
-    - target: {fileID: 498803678356429758, guid: 4bd2196fcd65d3b41a198b527cfbfc80,
-        type: 3}
-      propertyPath: manaRecharge
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bd2196fcd65d3b41a198b527cfbfc80, type: 3}
 --- !u!1001 &6429447988368447800
