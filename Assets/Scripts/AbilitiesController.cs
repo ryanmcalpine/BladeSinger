@@ -7,6 +7,9 @@ public class AbilitiesController : MonoBehaviour
     public PlayerController player;
 
     [SerializeField] private Transform castPoint;
+    [SerializeField] private ProgressBar chargeBar;
+
+    [Header( "Fireball" )]
     [SerializeField] private GameObject fireballPrefab;
     [SerializeField] private float fireballSpeed;   // this could make for a fun upgrade - starts out real slow, evolves to be a laser nuke
     [SerializeField] private float fireballChargeTime = 2f;
@@ -37,13 +40,20 @@ public class AbilitiesController : MonoBehaviour
         if( Input.GetKey( KeyCode.Q ) )
         {
             spellChargeTimer += Time.fixedDeltaTime;
-            Debug.Log( "Charging... Timer: " + spellChargeTimer );
+
+            switch( selectedSpell )
+            {
+                case SelectedSpell.Fireball:
+                    chargeBar.SetFill( spellChargeTimer / fireballChargeTime );
+                    break;
+            }
         }
         if( Input.GetKeyUp( KeyCode.Q ) )
         {
             CastSpell();
             player.anim.SetBool( "isCasting", false );
 
+            chargeBar.SetFill( 0f );
             spellChargeTimer = 0;
         }
     }
