@@ -41,6 +41,5 @@ public class ProgressBar : MonoBehaviour
     public void SetFill( float amount )
     {
         fill.fillAmount = amount;
-        Debug.Log( "Setting fill amount to " + amount );
     }
 }
