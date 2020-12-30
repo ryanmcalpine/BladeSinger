@@ -71,14 +71,17 @@ public class AbilitiesController : MonoBehaviour
             spellChargeTimer = 0;
         }
 
-        // Recharge mana
-        if( manaCurrent < manaMax )
+        // Recharge mana when not charging a spell
+        if( !player.anim.GetBool( "isCasting" ) )
         {
-            manaCurrent += manaRecharge * Time.fixedDeltaTime;
-        }
-        else
-        {
-            manaCurrent = manaMax;
+            if( manaCurrent < manaMax )
+            {
+                manaCurrent += manaRecharge * Time.fixedDeltaTime;
+            }
+            else
+            {
+                manaCurrent = manaMax;
+            }
         }
 
         // Update UI mana bar
