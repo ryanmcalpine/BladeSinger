@@ -20,8 +20,6 @@ public class Health : MonoBehaviour
         get { return ragdollRBs; }
     }
 
-    //private List<Rigidbody> ragdollRBs;
-
     private int currentHealth;
     private bool isDead = false;
     public bool IsDead  // property
@@ -51,16 +49,16 @@ public class Health : MonoBehaviour
     {
         if( currentHealth <= 0 && !isDead ) // just in case
         {
-            Debug.Log( gameObject.name + " has died. RIP :(" );
+            //Debug.Log( gameObject.name + " has died. RIP :(" );
             Die();
         }
     }
 
     public void TakeDamage( int dmg )
     {
-        Debug.Log( gameObject.name + " took " + dmg + " damage" );
+        //Debug.Log( gameObject.name + " took " + dmg + " damage" );
         currentHealth -= dmg;
-        Debug.Log( "Remaining health: " + currentHealth );
+        //Debug.Log( "Remaining health: " + currentHealth );
         if( currentHealth <= 0 )
         {
             Die();
@@ -69,12 +67,12 @@ public class Health : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log( "IsDead = true" );
+        //Debug.Log( "IsDead = true" );
         isDead = true;
 
         if( hasRagdoll )
         {
-            Debug.Log( "Enabling ragdoll" );
+            //Debug.Log( "Enabling ragdoll" );
             ragdollModel.transform.parent = null;
             ragdollModel.GetComponent<Animator>().enabled = false;
             animatedModel.SetActive( false );

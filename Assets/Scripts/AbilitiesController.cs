@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// by Ryan McAlpine
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,16 +33,17 @@ public class AbilitiesController : MonoBehaviour
     }
     private SelectedSpell selectedSpell = SelectedSpell.Fireball;
 
-    // Start is called before the first frame update
     void Start()
     {
         player.anim.SetBool( "isCasting", false );
         manaCurrent = manaMax;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Q down: start casting
+        // Q held: charge spell
+        // Q released: cast spell & reset charge amount
         if( Input.GetKeyDown(KeyCode.Q) )
         {
             player.anim.SetBool("isCasting", true);
@@ -49,6 +52,7 @@ public class AbilitiesController : MonoBehaviour
         {
             spellChargeTimer += Time.fixedDeltaTime;
 
+            // Use our enum to get necessary charge time
             switch( selectedSpell )
             {
                 case SelectedSpell.Fireball:
@@ -61,10 +65,13 @@ public class AbilitiesController : MonoBehaviour
             CastSpell();
             player.anim.SetBool( "isCasting", false );
 
+            // spell has been cast (or fizzled if uncharged),
+            // so reset charge bar and charge timer
             chargeBar.SetFill( 0f );
             spellChargeTimer = 0;
         }
 
+        // Recharge mana
         if( manaCurrent < manaMax )
         {
             manaCurrent += manaRecharge * Time.fixedDeltaTime;
@@ -74,14 +81,17 @@ public class AbilitiesController : MonoBehaviour
             manaCurrent = manaMax;
         }
 
+        // Update UI mana bar
         manaBar.SetFill( manaCurrent / manaMax );
     }
 
     void CastSpell()
     {
+        // Use enum again to call spell function
         switch( selectedSpell )
         {
             case SelectedSpell.Fireball:
+                // Make sure spell is charged && we have enough mana
                 if( spellChargeTimer >= fireballChargeTime && manaCurrent >= fireballManaCost )
                 {
                     player.anim.SetTrigger( "cast" );
@@ -98,7 +108,7 @@ public class AbilitiesController : MonoBehaviour
         RaycastHit hit;
         if( Physics.Raycast( ray, out hit ) )
         {
-            Debug.Log( "Raycast hit " + hit.collider.name );
+            //Debug.Log( "Raycast hit " + hit.collider.name );
             projectileDestination = hit.point;
         }
         else
