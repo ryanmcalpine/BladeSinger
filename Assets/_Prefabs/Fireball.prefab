@@ -129,6 +129,9 @@ MonoBehaviour:
   explosionVFX: {fileID: 1899875899416870501, guid: 9e5af4bcde19f1446a4d97e442b25960,
     type: 3}
   explosion_ac: {fileID: 8300000, guid: 641cb3cabafc2ef4fa2f02457f67b6ab, type: 3}
+  explosion_shake: {fileID: 11400000, guid: 3fa063972538a09418cde6558abd1e3f, type: 2}
+  shakeAmplitude: 35
+  maxShakeDistance: 30
   fireballDmg: 30
   explosionForce: 70
 --- !u!198 &5904383665769420686
