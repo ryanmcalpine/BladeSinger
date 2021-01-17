@@ -15,6 +15,7 @@ public class Health : MonoBehaviour
     [SerializeField] private GameObject animatedModel;
     [SerializeField] private GameObject ragdollModel;
     [SerializeField] private Rigidbody[] ragdollRBs;
+    [SerializeField] private AudioClip death_ac;
     public Rigidbody[] RagdollRBs
     {
         get { return ragdollRBs; }
@@ -69,6 +70,8 @@ public class Health : MonoBehaviour
     {
         //Debug.Log( "IsDead = true" );
         isDead = true;
+
+        AudioController.Instance.PlaySound(death_ac, transform.position, true);
 
         if( hasRagdoll )
         {
