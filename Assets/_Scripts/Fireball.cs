@@ -15,6 +15,7 @@ public class Fireball : MonoBehaviour
 
     [SerializeField] private int fireballDmg;
     [SerializeField] private float explosionForce;
+    [SerializeField] private float maxExplosionRadius = 10; // Things farther away are ignored for performance reasons
 
     void OnTriggerEnter( Collider other )
     {
@@ -31,21 +32,27 @@ public class Fireball : MonoBehaviour
             explosion_shake.amplitude = shakeAmplitude * Mathf.Clamp01( 1f - ( distance / maxShakeDistance) );
             Camera.main.GetComponentInParent<CameraShake>().AddShakeEvent( explosion_shake ); 
 
-            // Do stuff if we hit an enemy, otherwise just Destroy()
-            if( other.gameObject.tag == "Enemy" )
-            {
-                // Deal damage to enemy
-                Health enemyHealth = other.gameObject.GetComponent<Health>();
-                enemyHealth.TakeDamage( fireballDmg );
-                
-                //Debug.Log( "F - Calling coroutine" );
-                // Delay explosion force til next frame to ensure ragdoll is activated
-                StartCoroutine( DelayedExplosionForce( enemyHealth ) );
+            // do explosion effects to nearby things
+            Collider[] colliders = Physics.OverlapSphere(transform.position, maxExplosionRadius);
+            foreach(Collider col in colliders ) {
+                // Do stuff if we hit an enemy
+                if( col.gameObject.tag == "Enemy" )
+                {
+                    // Deal damage to enemy. Currenty doesn't scale with distance.
+                    Health enemyHealth = col.gameObject.GetComponent<Health>();
+                    enemyHealth.TakeDamage( fireballDmg );
+                    
+                    //Debug.Log( "F - Calling coroutine" );
+                    // Delay explosion force til next frame to ensure ragdoll is activated
+                    StartCoroutine( DelayedExplosionForce( enemyHealth ) );
+  
+                }
+
             }
-            else
-            {
-                Destroy( gameObject );
-            }
+
+            //Debug.Log( "F - Destroying gameObject" );
+            Destroy( gameObject );
+            
         }
     }
 
@@ -73,7 +80,6 @@ public class Fireball : MonoBehaviour
                 rb.AddForceAtPosition( direction * localForce, pushPoint, ForceMode.Impulse );
             }
         }
-        //Debug.Log( "F - Destroying gameObject" );
-        Destroy( gameObject );
+        
     }
 }
