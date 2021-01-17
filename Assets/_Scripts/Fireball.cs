@@ -72,9 +72,11 @@ public class Fireball : MonoBehaviour
                 Vector3 pushPoint = rb.gameObject.GetComponent<Collider>().ClosestPointOnBounds( transform.position );
                 Vector3 displacement = rb.transform.position - transform.position; // displacement between the joint and the explosion
                 Vector3 direction = Vector3.Normalize(displacement);
-                // The force the explsion imparts on the limb is in proportion to the inverse sqaure of the distance.
+                // The force the explsion imparts on the limb is in proportion to the inverse of the distance.
                 // Modified so that at about a tenth of a meter, going closer won't increase the force. This is to avoid division by zero errors.
-                float localForce =  explosionForce / (displacement.sqrMagnitude + 0.01f);
+                // float localForce =  explosionForce / (displacement.sqrMagnitude + 0.01f); // inverse-square law is for energy, not force
+                float localForce = explosionForce/(displacement.magnitude + 0.1f);
+
                 //Debug.Log( "Explosion! Force added to " + rb.gameObject.name );
                 //Debug.Log( "PushPoint: " + pushPoint.x + ", " + pushPoint.y + ", " + pushPoint.z );
                 rb.AddForceAtPosition( direction * localForce, pushPoint, ForceMode.Impulse );

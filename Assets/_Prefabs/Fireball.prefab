@@ -133,7 +133,7 @@ MonoBehaviour:
   shakeAmplitude: 35
   maxShakeDistance: 30
   fireballDmg: 30
-  explosionForce: 10
+  explosionForce: 100
   maxExplosionRadius: 10
 --- !u!198 &5904383665769420686
 ParticleSystem:
