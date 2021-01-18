@@ -13,7 +13,7 @@ public class Fireball : MonoBehaviour
     [SerializeField] private float shakeAmplitude;
     [SerializeField] private float maxShakeDistance;
 
-    [SerializeField] private int fireballDmg;
+    [SerializeField] private int fireballDmg; // damage dealt from one meter away
     [SerializeField] private float explosionForce;
     [SerializeField] private float maxExplosionRadius = 10; // Things farther away are ignored for performance reasons
 
@@ -38,11 +38,13 @@ public class Fireball : MonoBehaviour
                 // Do stuff if we hit an enemy
                 if( col.gameObject.tag == "Enemy" )
                 {
-                    // Deal damage to enemy. Currenty doesn't scale with distance.
+                    // Deal damage to enemy. Currenty scales by inverse square, caps out at 0.2 meter distance
                     Health enemyHealth = col.gameObject.GetComponent<Health>();
-                    enemyHealth.TakeDamage( fireballDmg );
+                    float damageDealt = ( (float)fireballDmg / ((col.transform.position - transform.position).sqrMagnitude + 0.04f )); 
                     
-                    //Debug.Log( "F - Calling coroutine" );
+                    enemyHealth.TakeDamage( (int)damageDealt);
+                    
+                    // Debug.Log( "F - Calling coroutine" );
                     // Delay explosion force til next frame to ensure ragdoll is activated
                     StartCoroutine( DelayedExplosionForce( enemyHealth ) );
   
