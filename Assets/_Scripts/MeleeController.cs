@@ -75,12 +75,14 @@ public class MeleeController : MonoBehaviour
             case 5:
                 player.anim.SetTrigger( "atk5" );
                 break;
+                /*
             case 6:
                 player.anim.SetTrigger( "atk6" );
                 break;
             case 7:
                 player.anim.SetTrigger( "atk7" );
                 break;
+                */
         }
     }
 

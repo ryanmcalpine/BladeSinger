@@ -118,7 +118,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: atk5
+    m_ConditionEvent: atk4
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2272632342323834737}
@@ -372,7 +372,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: atk4
+    m_ConditionEvent: atk3
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -405041447517532242}
@@ -425,7 +425,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: atk2
+    m_ConditionEvent: atk1
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4897650360283896066}
@@ -435,7 +435,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_ExitTime: 0.0014126071
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -520,7 +520,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Stable Sword Outward Slash
+  m_Name: right
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -688,7 +688,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Stable Sword Inward Slash
+  m_Name: left
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -830,7 +830,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sword And Shield Slash_2
+  m_Name: bottom-left
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -914,35 +914,35 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 781569220414828832}
-    m_Position: {x: 230, y: 130, z: 0}
+    m_Position: {x: 170, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -405041447517532242}
-    m_Position: {x: 720, y: 140, z: 0}
+    m_Position: {x: 780, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2211257735578733261}
     m_Position: {x: 480, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4897650360283896066}
-    m_Position: {x: 700, y: -70, z: 0}
+    m_Position: {x: 730, y: -50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2272632342323834737}
-    m_Position: {x: 300, y: 270, z: 0}
+    m_Position: {x: 280, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6475702163158166083}
     m_Position: {x: 250, y: -190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4454685617122293656}
-    m_Position: {x: 500, y: -190, z: 0}
+    m_Position: {x: 630, y: -200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7411041478446802155}
-    m_Position: {x: 330, y: -70, z: 0}
+    m_Position: {x: 440, y: -130, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 50, y: 80, z: 0}
+  m_AnyStatePosition: {x: 10, y: -110, z: 0}
+  m_EntryPosition: {x: 10, y: -50, z: 0}
   m_ExitPosition: {x: 720, y: 500, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -2211257735578733261}
@@ -983,7 +983,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Standing 1H Magic Attack 01
+  m_Name: cast
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1011,7 +1011,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sword And Shield Slash
+  m_Name: top-right
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1025,7 +1025,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 5186bdffa8fab5d40ba30cddd66bfb48,
+  m_Motion: {fileID: -575402394749698384, guid: bc5e29bebfb5287409d44578079e557e,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -1113,7 +1113,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Standing Idle
+  m_Name: casting
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1174,7 +1174,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: atk3
+    m_ConditionEvent: atk2
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 781569220414828832}

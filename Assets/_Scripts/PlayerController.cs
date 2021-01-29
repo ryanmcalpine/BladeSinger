@@ -45,10 +45,10 @@ public class PlayerController : MonoBehaviour
 
     private int cameraMoveDir = -1;
     // cameraMoveDir will represent the direction of movement of the cursor
-    // 8 possible swing directions, organized like so:
-    //  0 1 2
-    //  3   4
-    //  5 6 7
+    // 6 possible swing directions, organized like so:
+    //   0 1
+    //  2   3
+    //   4 5
     public int CameraMoveDir
     {
         // Making a property allows other classes (i.e. the attack controller)
@@ -235,40 +235,42 @@ public class PlayerController : MonoBehaviour
             // moved up & left
             cameraMoveDir = 0;
         }
-        else if( deltaX <= -1f && deltaY > -1f && deltaY < 1f )
+        else if( deltaX <= -1f && deltaY > -1f && deltaY <= 1f )
         {
             // moved up
+            // just default top-right
             cameraMoveDir = 1;
         }
-        else if( deltaX <= -1f && deltaY >= 1f )
+        else if( deltaX <= -1f && deltaY > 1f )
         {
             // moved up & right
-            cameraMoveDir = 2;
+            cameraMoveDir = 1;
         }
-        else if( deltaX > -1f && deltaX < 1f && deltaY <= -1f )
+        else if( deltaX > -1f && deltaX <= 1f && deltaY <= -1f )
         {
             // moved left
-            cameraMoveDir = 3;
+            cameraMoveDir = 2;
         }
-        else if( deltaX > -1f && deltaX < 1f && deltaY >= 1f )
+        else if( deltaX > -1f && deltaX <= 1f && deltaY > 1f )
         {
             // moved right
-            cameraMoveDir = 4;
+            cameraMoveDir = 3;
         }
-        else if( deltaX >= 1f && deltaY <= -1f )
+        else if( deltaX > 1f && deltaY <= -1f )
         {
             // moved down and left
-            cameraMoveDir = 5;
+            cameraMoveDir = 4;
         }
-        else if( deltaX >= 1f && deltaY > -1f && deltaY < 1f )
+        else if( deltaX > 1f && deltaY > -1f && deltaY <= 1f )
         {
             // moved down
-            cameraMoveDir = 6;
+            // just default bottom-right
+            cameraMoveDir = 5;
         }
-        else if( deltaX >= 1f && deltaY >= 1f )
+        else if( deltaX > 1f && deltaY >= 1f )
         {
             // moved down and right
-            cameraMoveDir = 7;
+            cameraMoveDir = 5;
         }
         else
         {
