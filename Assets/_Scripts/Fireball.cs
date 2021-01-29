@@ -13,8 +13,9 @@ public class Fireball : MonoBehaviour
     [SerializeField] private float shakeAmplitude;
     [SerializeField] private float maxShakeDistance;
 
-    [SerializeField] private int fireballDmg;
+    [SerializeField] private int fireballDmg; // damage dealt from one meter away
     [SerializeField] private float explosionForce;
+    [SerializeField] private float maxExplosionRadius = 10; // Things farther away are ignored for performance reasons
 
     void OnTriggerEnter( Collider other )
     {
@@ -31,21 +32,29 @@ public class Fireball : MonoBehaviour
             explosion_shake.amplitude = shakeAmplitude * Mathf.Clamp01( 1f - ( distance / maxShakeDistance) );
             Camera.main.GetComponentInParent<CameraShake>().AddShakeEvent( explosion_shake ); 
 
-            // Do stuff if we hit an enemy, otherwise just Destroy()
-            if( other.gameObject.tag == "Enemy" )
-            {
-                // Deal damage to enemy
-                Health enemyHealth = other.gameObject.GetComponent<Health>();
-                enemyHealth.TakeDamage( fireballDmg );
-                
-                //Debug.Log( "F - Calling coroutine" );
-                // Delay explosion force til next frame to ensure ragdoll is activated
-                StartCoroutine( DelayedExplosionForce( enemyHealth ) );
+            // do explosion effects to nearby things
+            Collider[] colliders = Physics.OverlapSphere(transform.position, maxExplosionRadius);
+            foreach(Collider col in colliders ) {
+                // Do stuff if we hit an enemy
+                if( col.gameObject.tag == "Enemy" )
+                {
+                    // Deal damage to enemy. Currenty scales by inverse square, caps out at 0.2 meter distance
+                    Health enemyHealth = col.gameObject.GetComponent<Health>();
+                    float damageDealt = ( (float)fireballDmg / ((col.transform.position - transform.position).sqrMagnitude + 0.04f )); 
+                    
+                    enemyHealth.TakeDamage( (int)damageDealt);
+                    
+                    // Debug.Log( "F - Calling coroutine" );
+                    // Delay explosion force til next frame to ensure ragdoll is activated
+                    StartCoroutine( DelayedExplosionForce( enemyHealth ) );
+  
+                }
+
             }
-            else
-            {
-                Destroy( gameObject );
-            }
+
+            //Debug.Log( "F - Destroying gameObject" );
+            Destroy( gameObject );
+            
         }
     }
 
@@ -65,15 +74,16 @@ public class Fireball : MonoBehaviour
                 Vector3 pushPoint = rb.gameObject.GetComponent<Collider>().ClosestPointOnBounds( transform.position );
                 Vector3 displacement = rb.transform.position - transform.position; // displacement between the joint and the explosion
                 Vector3 direction = Vector3.Normalize(displacement);
-                // The force the explsion imparts on the limb is in proportion to the inverse sqaure of the distance.
+                // The force the explsion imparts on the limb is in proportion to the inverse of the distance.
                 // Modified so that at about a tenth of a meter, going closer won't increase the force. This is to avoid division by zero errors.
-                float localForce =  explosionForce / (displacement.sqrMagnitude + 0.01f);
+                // float localForce =  explosionForce / (displacement.sqrMagnitude + 0.01f); // inverse-square law is for energy, not force
+                float localForce = explosionForce/(displacement.magnitude + 0.1f);
+
                 //Debug.Log( "Explosion! Force added to " + rb.gameObject.name );
                 //Debug.Log( "PushPoint: " + pushPoint.x + ", " + pushPoint.y + ", " + pushPoint.z );
                 rb.AddForceAtPosition( direction * localForce, pushPoint, ForceMode.Impulse );
             }
         }
-        //Debug.Log( "F - Destroying gameObject" );
-        Destroy( gameObject );
+        
     }
 }

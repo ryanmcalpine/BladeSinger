@@ -1818,6 +1818,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 1297654002829988006, guid: b1033a617427176478a1f5532e0df3fc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1297654002830019717, guid: b1033a617427176478a1f5532e0df3fc,
         type: 3}
       propertyPath: m_RootOrder

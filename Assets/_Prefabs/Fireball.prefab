@@ -132,8 +132,9 @@ MonoBehaviour:
   explosion_shake: {fileID: 11400000, guid: 3fa063972538a09418cde6558abd1e3f, type: 2}
   shakeAmplitude: 35
   maxShakeDistance: 30
-  fireballDmg: 30
-  explosionForce: 7
+  fireballDmg: 500
+  explosionForce: 35
+  maxExplosionRadius: 10
 --- !u!198 &5904383665769420686
 ParticleSystem:
   m_ObjectHideFlags: 0
