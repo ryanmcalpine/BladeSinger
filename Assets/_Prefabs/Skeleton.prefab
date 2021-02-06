@@ -578,7 +578,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1297654002829988005}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5, y: 0, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -676,6 +676,7 @@ MonoBehaviour:
   animatedModel: {fileID: 1297654002829988005}
   ragdollModel: {fileID: 4769355354702682082}
   ragdollRBs: []
+  death_ac: {fileID: 8300000, guid: 38122d0152f9c60c59fdb892cd93fd31, type: 3}
 --- !u!1 &1297654002829988007
 GameObject:
   m_ObjectHideFlags: 0
